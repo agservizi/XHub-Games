@@ -282,25 +282,30 @@ input.addEventListener('input', function() {
     fetch(`/api.php?action=suggest_game&title=${encodeURIComponent(q)}`)
         .then(r => r.json())
         .then(data => {
-            if (!data.length) {
+            if (!Array.isArray(data) || !data.length) {
                 list.innerHTML = '<li class="px-4 py-2 text-gray-400">Nessun risultato</li>';
                 list.classList.remove('hidden');
                 return;
             }
             list.innerHTML = data.map(game => `<li class='px-4 py-2 hover:bg-xbox-green/20 cursor-pointer' data-title="${game.title.replace(/&/g, '&amp;')}" data-year="${game.release_year||''}" data-genre="${game.genre||''}" data-developer="${game.developer||''}" data-publisher="${game.publisher||''}" data-cover="${game.cover_url||''}">${game.title} <span class='text-xs text-gray-400'>${game.release_year||''}</span></li>`).join('');
             list.classList.remove('hidden');
+        })
+        .catch(() => {
+            list.innerHTML = '<li class="px-4 py-2 text-red-400">Errore connessione API</li>';
+            list.classList.remove('hidden');
         });
 });
 
 list.addEventListener('click', function(e) {
     if (e.target && e.target.matches('li[data-title]')) {
-        // Compila i campi del form
-        document.getElementById('title').value = e.target.dataset.title;
-        if (e.target.dataset.year) document.getElementById('release_year').value = e.target.dataset.year;
-        if (e.target.dataset.genre) document.getElementById('genre').value = e.target.dataset.genre;
-        if (e.target.dataset.developer) document.getElementById('developer').value = e.target.dataset.developer;
-        if (e.target.dataset.publisher) document.getElementById('publisher').value = e.target.dataset.publisher;
-        if (e.target.dataset.cover) document.getElementById('cover_url').value = e.target.dataset.cover;
+        // Compila i campi del form solo se esistono
+        const setVal = (id, val) => { const el = document.getElementById(id); if (el && val) el.value = val; };
+        setVal('title', e.target.dataset.title);
+        setVal('release_year', e.target.dataset.year);
+        setVal('genre', e.target.dataset.genre);
+        setVal('developer', e.target.dataset.developer);
+        setVal('publisher', e.target.dataset.publisher);
+        setVal('cover_url', e.target.dataset.cover);
         list.innerHTML = '';
         list.classList.add('hidden');
         input.value = '';
