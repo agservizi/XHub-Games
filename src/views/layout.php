@@ -99,7 +99,7 @@
                     <a href="/" class="text-gray-300 hover:text-xbox-green px-3 py-2 rounded-md text-sm font-medium transition-colors">
                         🏠 Home
                     </a>
-                    <a href="/create" class="xbox-button text-white px-4 py-2 rounded-lg text-sm font-medium">
+                    <a href="/nuovo-gioco" class="xbox-button text-white px-4 py-2 rounded-lg text-sm font-medium">
                         ➕ Aggiungi Gioco
                     </a>
                 </div>
@@ -121,7 +121,7 @@
                 <a href="/" class="text-gray-300 hover:text-xbox-green block px-3 py-2 rounded-md text-base font-medium">
                     🏠 Home
                 </a>
-                <a href="/create" class="text-gray-300 hover:text-xbox-green block px-3 py-2 rounded-md text-base font-medium">
+                <a href="/nuovo-gioco" class="text-gray-300 hover:text-xbox-green block px-3 py-2 rounded-md text-base font-medium">
                     ➕ Aggiungi Gioco
                 </a>
             </div>

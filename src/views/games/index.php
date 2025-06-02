@@ -111,7 +111,7 @@ ob_start();
                 <div class="text-6xl mb-4">🎮</div>
                 <h3 class="text-2xl font-semibold text-gray-300 mb-2">Nessun gioco trovato</h3>
                 <p class="text-gray-400 mb-6">Non ci sono giochi che corrispondono ai filtri selezionati.</p>
-                <a href="/create" class="xbox-button text-white px-6 py-3 rounded-lg font-medium inline-flex items-center">
+                <a href="/nuovo-gioco" class="xbox-button text-white px-6 py-3 rounded-lg font-medium inline-flex items-center">
                     ➕ Aggiungi il tuo primo gioco
                 </a>
             </div>

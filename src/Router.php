@@ -19,7 +19,7 @@ class Router {
             'GET /' => [$this->gameController, 'index'],
             'GET /games' => [$this->gameController, 'index'],
             'GET /game/(\d+)' => [$this->gameController, 'show'],
-            'GET /create' => [$this->gameController, 'create'],
+            'GET /nuovo-gioco' => [$this->gameController, 'create'],
             'POST /store' => [$this->gameController, 'store'],
             'GET /edit/(\d+)' => [$this->gameController, 'edit'],
             'POST /update/(\d+)' => [$this->gameController, 'update'],

@@ -26,8 +26,8 @@ ob_start();
                 <a href="/" class="w-full xbox-button text-white px-6 py-3 rounded-lg font-medium block">
                     🏠 Torna al Catalogo
                 </a>
-                <a href="/create" class="w-full bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 border border-blue-600/30 px-6 py-3 rounded-lg font-medium block transition-colors">
-                    ➕ Aggiungi un Gioco
+                <a href="/nuovo-gioco" class="w-full bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 border border-blue-600/30 px-6 py-3 rounded-lg font-medium block transition-colors">
+                    ➕ Aggiungi Gioco
                 </a>
             </div>
         </div>
