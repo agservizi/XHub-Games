@@ -85,8 +85,11 @@
                 <div class="flex-shrink-0 flex items-center">
                     <a href="/" class="flex items-center space-x-3 hover:opacity-80 transition-opacity">
                         <div class="w-10 h-10 bg-xbox-green rounded-lg flex items-center justify-center xbox-glow">
-                            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                            <!-- Xbox Original Icon SVG -->
+                            <svg class="w-7 h-7" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="24" cy="24" r="22" fill="#107C10" stroke="#fff" stroke-width="2"/>
+                                <path d="M24 10C18.5 13.5 13.5 20.5 13.5 28C13.5 32.5 17.5 36.5 24 36.5C30.5 36.5 34.5 32.5 34.5 28C34.5 20.5 29.5 13.5 24 10Z" fill="#fff"/>
+                                <path d="M24 10C27.5 13.5 32.5 20.5 32.5 28C32.5 32.5 28.5 36.5 24 36.5C19.5 36.5 15.5 32.5 15.5 28C15.5 20.5 20.5 13.5 24 10Z" fill="#107C10"/>
                             </svg>
                         </div>
                         <div>
