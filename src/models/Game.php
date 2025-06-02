@@ -3,7 +3,7 @@
  * Game Model for Xbox Games Catalog
  */
 
-require_once __DIR__ . '/../config/database.php';
+require_once dirname(__DIR__, 2) . '/config/database.php';
 
 class Game {
     private $conn;
