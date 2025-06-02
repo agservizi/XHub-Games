@@ -45,6 +45,13 @@ function displayFieldError($field, $errors) {
         </div>
     <?php endif; ?>
 
+    <!-- Autocomplete Xbox Game Search -->
+    <div class="mb-8">
+        <label for="game-autocomplete" class="block text-sm font-medium text-xbox-green mb-2">Cerca gioco da database Xbox</label>
+        <input type="text" id="game-autocomplete" class="w-full px-4 py-3 bg-xbox-dark border border-xbox-green/30 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-xbox-green focus:border-transparent" placeholder="Cerca un gioco Xbox (es. Halo, Forza...)" autocomplete="off">
+        <ul id="autocomplete-list" class="bg-xbox-dark border border-xbox-green/30 rounded-md mt-1 max-h-56 overflow-y-auto hidden"></ul>
+    </div>
+
     <!-- Form -->
     <div class="xbox-card rounded-lg p-6">
         <form method="POST" action="/store" class="space-y-6">
@@ -259,6 +266,50 @@ document.getElementById('cover_url').addEventListener('input', function() {
         };
     } else {
         preview.style.display = 'none';
+    }
+});
+
+const input = document.getElementById('game-autocomplete');
+const list = document.getElementById('autocomplete-list');
+
+input.addEventListener('input', function() {
+    const q = this.value.trim();
+    if (q.length < 2) {
+        list.innerHTML = '';
+        list.classList.add('hidden');
+        return;
+    }
+    fetch(`/api.php?action=suggest_game&title=${encodeURIComponent(q)}`)
+        .then(r => r.json())
+        .then(data => {
+            if (!data.length) {
+                list.innerHTML = '<li class="px-4 py-2 text-gray-400">Nessun risultato</li>';
+                list.classList.remove('hidden');
+                return;
+            }
+            list.innerHTML = data.map(game => `<li class='px-4 py-2 hover:bg-xbox-green/20 cursor-pointer' data-title="${game.title.replace(/&/g, '&amp;')}" data-year="${game.release_year||''}" data-genre="${game.genre||''}" data-developer="${game.developer||''}" data-publisher="${game.publisher||''}" data-cover="${game.cover_url||''}">${game.title} <span class='text-xs text-gray-400'>${game.release_year||''}</span></li>`).join('');
+            list.classList.remove('hidden');
+        });
+});
+
+list.addEventListener('click', function(e) {
+    if (e.target && e.target.matches('li[data-title]')) {
+        // Compila i campi del form
+        document.getElementById('title').value = e.target.dataset.title;
+        if (e.target.dataset.year) document.getElementById('release_year').value = e.target.dataset.year;
+        if (e.target.dataset.genre) document.getElementById('genre').value = e.target.dataset.genre;
+        if (e.target.dataset.developer) document.getElementById('developer').value = e.target.dataset.developer;
+        if (e.target.dataset.publisher) document.getElementById('publisher').value = e.target.dataset.publisher;
+        if (e.target.dataset.cover) document.getElementById('cover_url').value = e.target.dataset.cover;
+        list.innerHTML = '';
+        list.classList.add('hidden');
+        input.value = '';
+    }
+});
+
+document.addEventListener('click', function(e) {
+    if (!input.contains(e.target) && !list.contains(e.target)) {
+        list.classList.add('hidden');
     }
 });
 </script>
