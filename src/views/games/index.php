@@ -104,6 +104,38 @@ ob_start();
         </div>
     </div>
 
+    <!-- Export/Import Section -->
+    <div class="flex justify-end gap-4 mb-4">
+        <a href="/export-csv" class="xbox-button px-4 py-2 rounded text-white">Esporta CSV</a>
+        <form method="POST" action="/import-csv" enctype="multipart/form-data" class="inline-block">
+            <input type="file" name="csv_file" accept=".csv" class="text-sm text-gray-300">
+            <button type="submit" class="xbox-button px-4 py-2 rounded text-white">Importa da CSV</button>
+        </form>
+    </div>
+
+    <!-- Advanced Stats Section (Mockup) -->
+    <div class="xbox-card p-6 rounded-lg mb-8">
+        <h2 class="text-xl font-semibold text-xbox-green mb-4">📊 Statistiche Avanzate</h2>
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <div class="text-3xl font-bold text-xbox-green mb-2">150</div>
+                <div class="text-sm text-gray-400">Giochi Totali nel Catalogo</div>
+            </div>
+            <div>
+                <div class="text-3xl font-bold text-green-400 mb-2">75</div>
+                <div class="text-sm text-gray-400">Giochi Completati</div>
+            </div>
+            <div>
+                <div class="text-3xl font-bold text-yellow-400 mb-2">50</div>
+                <div class="text-sm text-gray-400">Giochi in Corso</div>
+            </div>
+            <div>
+                <div class="text-3xl font-bold text-orange-400 mb-2">4.5</div>
+                <div class="text-sm text-gray-400">Voto Medio Globale</div>
+            </div>
+        </div>
+    </div>
+
     <!-- Games Grid -->
     <?php if (empty($games)): ?>
         <div class="text-center py-12">

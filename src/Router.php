@@ -24,7 +24,9 @@ class Router {
             'GET /edit/(\d+)' => [$this->gameController, 'edit'],
             'POST /update/(\d+)' => [$this->gameController, 'update'],
             'POST /delete/(\d+)' => [$this->gameController, 'destroy'],
-            'GET /api/games' => [$this->gameController, 'api']
+            'GET /api/games' => [$this->gameController, 'api'],
+            'GET /export-csv' => [$this->gameController, 'exportCsv'],
+            'POST /import-csv' => [$this->gameController, 'importCsv'],
         ];
     }
 

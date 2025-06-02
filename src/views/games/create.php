@@ -60,6 +60,15 @@ if (isset($_GET['debug']) && $_GET['debug'] === '1') {
         <ul id="autocomplete-list" class="bg-xbox-dark border border-xbox-green/30 rounded-md mt-1 max-h-56 overflow-y-auto hidden"></ul>
     </div>
 
+    <!-- Importa da CSV -->
+    <div class="mb-8 flex items-center gap-4">
+        <form method="POST" action="/import-csv" enctype="multipart/form-data" class="flex items-center gap-2">
+            <input type="file" name="csv_file" accept=".csv" class="text-sm text-gray-300">
+            <button type="submit" class="xbox-button px-4 py-2 rounded text-white">Importa da CSV</button>
+        </form>
+        <a href="/export-csv" class="xbox-button px-4 py-2 rounded text-white">Esporta CSV</a>
+    </div>
+
     <!-- Form -->
     <div class="xbox-card rounded-lg p-6">
         <form method="POST" action="/store" class="space-y-6">
@@ -324,6 +333,26 @@ document.addEventListener('click', function(e) {
     if (!input.contains(e.target) && !list.contains(e.target)) {
         list.classList.add('hidden');
     }
+});
+
+// Suggerimenti generi, sviluppatori, publisher
+fetch('/api.php?action=get_genres').then(r=>r.json()).then(genres=>{
+    const datalist = document.getElementById('genre-suggestions');
+    if(datalist) datalist.innerHTML = genres.map(g=>`<option value="${g}">`).join('');
+});
+fetch('/api.php?action=get_developers').then(r=>r.json()).then(devs=>{
+    const dev = document.getElementById('developer');
+    if(dev && !dev.value) dev.setAttribute('list','dev-suggestions');
+    let dl = document.getElementById('dev-suggestions');
+    if(!dl){dl=document.createElement('datalist');dl.id='dev-suggestions';dev.parentNode.appendChild(dl)}
+    dl.innerHTML = devs.map(d=>`<option value="${d}">`).join('');
+});
+fetch('/api.php?action=get_publishers').then(r=>r.json()).then(pubs=>{
+    const pub = document.getElementById('publisher');
+    if(pub && !pub.value) pub.setAttribute('list','pub-suggestions');
+    let dl = document.getElementById('pub-suggestions');
+    if(!dl){dl=document.createElement('datalist');dl.id='pub-suggestions';pub.parentNode.appendChild(dl)}
+    dl.innerHTML = pubs.map(p=>`<option value="${p}">`).join('');
 });
 </script>
 

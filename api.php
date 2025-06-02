@@ -54,6 +54,23 @@ switch ($action) {
         handleStatsRequest();
         break;
         
+    case 'search_external':
+        $q = $_GET['q'] ?? '';
+        echo json_encode(GameDataImporter::searchExternalGames($q));
+        break;
+        
+    case 'export_csv':
+        $games = (new Game())->getAll();
+        $file = GameDataImporter::exportToCSV($games);
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment; filename="xbox_games_export.csv"');
+        readfile($file);
+        exit;
+        
+    case 'import_csv':
+        // Da implementare lato controller per sicurezza (POST file upload)
+        break;
+        
     default:
         echo json_encode(['error' => 'Invalid action']);
         http_response_code(400);

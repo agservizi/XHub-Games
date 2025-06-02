@@ -71,36 +71,60 @@ class GameDataImporter {
     }
 
     /**
-     * Get popular developers list
+     * Cerca giochi tramite API esterna (mock RAWG/IGDB)
      */
-    public static function getPopularDevelopers() {
-        return [
-            '343 Industries', 'Playground Games', 'The Coalition', 'Rare Ltd.',
-            'CD Projekt RED', 'Ubisoft Montreal', 'Bethesda Game Studios',
-            'id Software', 'Machine Games', 'Arkane Studios', 'Obsidian Entertainment',
-            'inXile Entertainment', 'Ninja Theory', 'Compulsion Games'
+    public static function searchExternalGames($query) {
+        // Qui puoi integrare una vera API (RAWG, IGDB, ecc.)
+        // MOCK: restituisce giochi fittizi
+        $results = [
+            [
+                'title' => 'Halo Infinite',
+                'release_year' => 2021,
+                'genre' => 'Sparatutto',
+                'developer' => '343 Industries',
+                'publisher' => 'Microsoft Studios',
+                'cover_url' => 'https://images.igdb.com/igdb/image/upload/t_cover_big/co1r7b.jpg'
+            ],
+            [
+                'title' => 'Forza Horizon 5',
+                'release_year' => 2021,
+                'genre' => 'Racing',
+                'developer' => 'Playground Games',
+                'publisher' => 'Microsoft Studios',
+                'cover_url' => 'https://images.igdb.com/igdb/image/upload/t_cover_big/co1tmu.jpg'
+            ]
         ];
+        // Filtro semplice
+        return array_filter($results, function($g) use ($query) {
+            return stripos($g['title'], $query) !== false;
+        });
     }
 
     /**
-     * Get popular publishers list
-     */
-    public static function getPopularPublishers() {
-        return [
-            'Microsoft Studios', 'Xbox Game Studios', 'CD Projekt', 'Ubisoft',
-            'Electronic Arts', 'Activision', 'Bethesda Softworks', 'Square Enix',
-            '2K Games', 'Warner Bros. Games', 'Bandai Namco', 'Capcom'
-        ];
-    }
-
-    /**
-     * Get popular genres for Xbox
+     * Suggerisci generi
      */
     public static function getPopularGenres() {
         return [
             'Azione', 'Avventura', 'RPG', 'Sparatutto', 'Racing', 'Sport',
-            'Simulazione', 'Strategia', 'Puzzle', 'Indie', 'Horror',
-            'Piattaforme', 'Fighting', 'Rhythm', 'Azione/RPG', 'Stealth'
+            'Strategia', 'Simulazione', 'Platform', 'Puzzle', 'Horror', 'Fighting'
+        ];
+    }
+
+    /**
+     * Suggerisci sviluppatori
+     */
+    public static function getPopularDevelopers() {
+        return [
+            '343 Industries', 'Playground Games', 'The Coalition', 'Rare Ltd.', 'CD Projekt RED', 'Ubisoft', 'EA', 'Rockstar Games'
+        ];
+    }
+
+    /**
+     * Suggerisci publisher
+     */
+    public static function getPopularPublishers() {
+        return [
+            'Microsoft Studios', 'CD Projekt', 'Ubisoft', 'EA', 'Rockstar Games', 'Bandai Namco', 'Square Enix'
         ];
     }
 
@@ -170,91 +194,31 @@ class GameDataImporter {
     }
 
     /**
-     * Import from CSV file
+     * Esporta giochi in CSV
      */
-    public static function importFromCSV($filePath) {
-        if (!file_exists($filePath)) {
-            return ['error' => 'File not found'];
+    public static function exportToCSV($games, $filename = 'xbox_games_export.csv') {
+        $f = fopen($filename, 'w');
+        fputcsv($f, array_keys($games[0]));
+        foreach ($games as $game) {
+            fputcsv($f, $game);
         }
-
-        $imported = [];
-        $errors = [];
-        
-        if (($handle = fopen($filePath, "r")) !== FALSE) {
-            $header = fgetcsv($handle); // Skip header row
-            
-            while (($data = fgetcsv($handle)) !== FALSE) {
-                try {
-                    $gameData = [
-                        'title' => $data[0] ?? '',
-                        'genre' => $data[1] ?? '',
-                        'developer' => $data[2] ?? '',
-                        'publisher' => $data[3] ?? '',
-                        'release_year' => (int)($data[4] ?? date('Y')),
-                        'cover_url' => $data[5] ?? '',
-                        'language' => $data[6] ?? 'Italiano',
-                        'support_type' => $data[7] ?? 'Digitale',
-                        'status' => $data[8] ?? 'Da iniziare',
-                        'personal_rating' => !empty($data[9]) ? (float)$data[9] : null,
-                        'notes' => $data[10] ?? ''
-                    ];
-                    
-                    // Validate required fields
-                    if (empty($gameData['title']) || empty($gameData['genre']) || empty($gameData['developer'])) {
-                        $errors[] = "Riga con dati mancanti: " . implode(', ', $data);
-                        continue;
-                    }
-                    
-                    $imported[] = $gameData;
-                    
-                } catch (Exception $e) {
-                    $errors[] = "Errore nella riga: " . $e->getMessage();
-                }
-            }
-            
-            fclose($handle);
-        }
-        
-        return [
-            'imported' => $imported,
-            'errors' => $errors,
-            'count' => count($imported)
-        ];
+        fclose($f);
+        return $filename;
     }
 
     /**
-     * Export games to CSV
+     * Importa giochi da CSV
      */
-    public static function exportToCSV($games, $filename = 'xbox_games_export.csv') {
-        header('Content-Type: text/csv');
-        header('Content-Disposition: attachment; filename="' . $filename . '"');
-        
-        $output = fopen('php://output', 'w');
-        
-        // CSV Header
-        fputcsv($output, [
-            'Titolo', 'Genere', 'Sviluppatore', 'Publisher', 'Anno',
-            'Copertina', 'Lingua', 'Supporto', 'Status', 'Voto', 'Note'
-        ]);
-        
-        // Data rows
-        foreach ($games as $game) {
-            fputcsv($output, [
-                $game['title'],
-                $game['genre'],
-                $game['developer'],
-                $game['publisher'],
-                $game['release_year'],
-                $game['cover_url'],
-                $game['language'],
-                $game['support_type'],
-                $game['status'],
-                $game['personal_rating'],
-                $game['notes']
-            ]);
+    public static function importFromCSV($filePath) {
+        $rows = [];
+        if (($handle = fopen($filePath, 'r')) !== false) {
+            $header = fgetcsv($handle);
+            while (($data = fgetcsv($handle)) !== false) {
+                $rows[] = array_combine($header, $data);
+            }
+            fclose($handle);
         }
-        
-        fclose($output);
+        return $rows;
     }
 }
 ?>

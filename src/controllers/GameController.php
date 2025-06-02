@@ -185,5 +185,34 @@ class GameController {
         echo json_encode($games);
         exit();
     }
+
+    /**
+     * Esporta giochi in CSV
+     */
+    public function exportCsv() {
+        $games = $this->game->getAll();
+        $file = \GameDataImporter::exportToCSV($games);
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment; filename="xbox_games_export.csv"');
+        readfile($file);
+        exit;
+    }
+
+    /**
+     * Importa giochi da CSV
+     */
+    public function importCsv() {
+        if (!empty($_FILES['csv_file']['tmp_name'])) {
+            $rows = \GameDataImporter::importFromCSV($_FILES['csv_file']['tmp_name']);
+            foreach ($rows as $row) {
+                $this->game->create($row);
+            }
+            $_SESSION['success'] = 'Importazione completata!';
+        } else {
+            $_SESSION['error'] = 'Nessun file selezionato.';
+        }
+        header('Location: /');
+        exit;
+    }
 }
 ?>
