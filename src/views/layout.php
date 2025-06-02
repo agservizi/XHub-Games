@@ -84,13 +84,8 @@
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
                     <a href="/" class="flex items-center space-x-3 hover:opacity-80 transition-opacity">
-                        <div class="w-10 h-10 bg-xbox-green rounded-lg flex items-center justify-center xbox-glow">
-                            <!-- Xbox Original Icon SVG -->
-                            <svg class="w-7 h-7" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="24" cy="24" r="22" fill="#107C10" stroke="#fff" stroke-width="2"/>
-                                <path d="M24 10C18.5 13.5 13.5 20.5 13.5 28C13.5 32.5 17.5 36.5 24 36.5C30.5 36.5 34.5 32.5 34.5 28C34.5 20.5 29.5 13.5 24 10Z" fill="#fff"/>
-                                <path d="M24 10C27.5 13.5 32.5 20.5 32.5 28C32.5 32.5 28.5 36.5 24 36.5C19.5 36.5 15.5 32.5 15.5 28C15.5 20.5 20.5 13.5 24 10Z" fill="#107C10"/>
-                            </svg>
+                        <div class="w-10 h-10 rounded-lg flex items-center justify-center xbox-glow bg-xbox-green">
+                            <img src="https://img.icons8.com/?size=100&id=63696&format=png&color=000000" alt="Xbox Logo" class="w-8 h-8 object-contain" style="filter: drop-shadow(0 0 6px #107C10);">
                         </div>
                         <div>
                             <h1 class="text-xl font-bold text-xbox-green">Xbox Games</h1>
