@@ -18,6 +18,14 @@ function displayFieldError($field, $errors) {
     }
     return '';
 }
+
+// DEBUG: Mostra se la view viene caricata e lo stato delle variabili
+if (isset($_GET['debug']) && $_GET['debug'] === '1') {
+    echo '<pre style="background:#222;color:#0f0;padding:1em;">DEBUG create.php\n';
+    echo 'formData: ' . print_r($formData, true) . "\n";
+    echo 'errors: ' . print_r($errors, true) . "\n";
+    echo '</pre>';
+}
 ?>
 
 <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
