@@ -81,7 +81,9 @@ function displayFieldError($field, $errors) {
                     <input type="number" id="release_year" name="release_year" required
                            min="1970" max="<?= date('Y') + 5 ?>" 
                            value="<?= htmlspecialchars(getFieldValue('release_year', $formData, date('Y'))) ?>"
-                           class="w-full px-4 py-3 bg-xbox-dark border border-xbox-green/30 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-xbox-green focus:border-transparent">
+                           class="w-full px-4 py-3 bg-xbox-dark border border-xbox-green/30 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-xbox-green focus:border-transparent <?= isset($errors['release_year']) ? 'border-red-500' : '' ?>"
+                           placeholder="es. 2023">
+                    <?= displayFieldError('release_year', $errors) ?>
                 </div>
 
                 <!-- Genre -->
@@ -90,7 +92,8 @@ function displayFieldError($field, $errors) {
                         Genere *
                     </label>
                     <input type="text" id="genre" name="genre" required
-                           class="w-full px-4 py-3 bg-xbox-dark border border-xbox-green/30 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-xbox-green focus:border-transparent"
+                           value="<?= htmlspecialchars(getFieldValue('genre', $formData)) ?>"
+                           class="w-full px-4 py-3 bg-xbox-dark border border-xbox-green/30 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-xbox-green focus:border-transparent <?= isset($errors['genre']) ? 'border-red-500' : '' ?>"
                            placeholder="es. Sparatutto, Racing, RPG"
                            list="genre-suggestions">
                     <datalist id="genre-suggestions">
@@ -107,6 +110,7 @@ function displayFieldError($field, $errors) {
                         <option value="Horror">
                         <option value="Fighting">
                     </datalist>
+                    <?= displayFieldError('genre', $errors) ?>
                 </div>
 
                 <!-- Developer -->
@@ -115,8 +119,10 @@ function displayFieldError($field, $errors) {
                         Sviluppatore *
                     </label>
                     <input type="text" id="developer" name="developer" required
-                           class="w-full px-4 py-3 bg-xbox-dark border border-xbox-green/30 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-xbox-green focus:border-transparent"
+                           value="<?= htmlspecialchars(getFieldValue('developer', $formData)) ?>"
+                           class="w-full px-4 py-3 bg-xbox-dark border border-xbox-green/30 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-xbox-green focus:border-transparent <?= isset($errors['developer']) ? 'border-red-500' : '' ?>"
                            placeholder="es. 343 Industries">
+                    <?= displayFieldError('developer', $errors) ?>
                 </div>
 
                 <!-- Publisher -->
@@ -125,8 +131,10 @@ function displayFieldError($field, $errors) {
                         Publisher *
                     </label>
                     <input type="text" id="publisher" name="publisher" required
-                           class="w-full px-4 py-3 bg-xbox-dark border border-xbox-green/30 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-xbox-green focus:border-transparent"
+                           value="<?= htmlspecialchars(getFieldValue('publisher', $formData)) ?>"
+                           class="w-full px-4 py-3 bg-xbox-dark border border-xbox-green/30 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-xbox-green focus:border-transparent <?= isset($errors['publisher']) ? 'border-red-500' : '' ?>"
                            placeholder="es. Microsoft Studios">
+                    <?= displayFieldError('publisher', $errors) ?>
                 </div>
 
                 <!-- Language -->
@@ -136,10 +144,10 @@ function displayFieldError($field, $errors) {
                     </label>
                     <select id="language" name="language"
                             class="w-full px-4 py-3 bg-xbox-dark border border-xbox-green/30 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-xbox-green">
-                        <option value="Italiano">Italiano</option>
-                        <option value="Inglese">Inglese</option>
-                        <option value="Multilingua">Multilingua</option>
-                        <option value="Inglese con sottotitoli">Inglese con sottotitoli</option>
+                        <option value="Italiano" <?= getFieldValue('language', $formData, 'Italiano') === 'Italiano' ? 'selected' : '' ?>>Italiano</option>
+                        <option value="Inglese" <?= getFieldValue('language', $formData) === 'Inglese' ? 'selected' : '' ?>>Inglese</option>
+                        <option value="Multilingua" <?= getFieldValue('language', $formData) === 'Multilingua' ? 'selected' : '' ?>>Multilingua</option>
+                        <option value="Inglese con sottotitoli" <?= getFieldValue('language', $formData) === 'Inglese con sottotitoli' ? 'selected' : '' ?>>Inglese con sottotitoli</option>
                     </select>
                 </div>
 
@@ -149,11 +157,12 @@ function displayFieldError($field, $errors) {
                         Tipo di Supporto
                     </label>
                     <select id="support_type" name="support_type"
-                            class="w-full px-4 py-3 bg-xbox-dark border border-xbox-green/30 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-xbox-green">
-                        <option value="Digitale">📱 Digitale</option>
-                        <option value="Fisico">💿 Fisico</option>
-                        <option value="Entrambi">🎯 Entrambi</option>
+                            class="w-full px-4 py-3 bg-xbox-dark border border-xbox-green/30 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-xbox-green <?= isset($errors['support_type']) ? 'border-red-500' : '' ?>">
+                        <option value="Digitale" <?= getFieldValue('support_type', $formData) === 'Digitale' ? 'selected' : '' ?>>📱 Digitale</option>
+                        <option value="Fisico" <?= getFieldValue('support_type', $formData) === 'Fisico' ? 'selected' : '' ?>>💿 Fisico</option>
+                        <option value="Entrambi" <?= getFieldValue('support_type', $formData) === 'Entrambi' ? 'selected' : '' ?>>🎯 Entrambi</option>
                     </select>
+                    <?= displayFieldError('support_type', $errors) ?>
                 </div>
 
                 <!-- Status -->
@@ -162,11 +171,12 @@ function displayFieldError($field, $errors) {
                         Stato di Gioco
                     </label>
                     <select id="status" name="status"
-                            class="w-full px-4 py-3 bg-xbox-dark border border-xbox-green/30 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-xbox-green">
-                        <option value="Da iniziare">📋 Da iniziare</option>
-                        <option value="In corso">⏳ In corso</option>
-                        <option value="Completato">✅ Completato</option>
+                            class="w-full px-4 py-3 bg-xbox-dark border border-xbox-green/30 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-xbox-green <?= isset($errors['status']) ? 'border-red-500' : '' ?>">
+                        <option value="Da iniziare" <?= getFieldValue('status', $formData) === 'Da iniziare' ? 'selected' : '' ?>>📋 Da iniziare</option>
+                        <option value="In corso" <?= getFieldValue('status', $formData) === 'In corso' ? 'selected' : '' ?>>⏳ In corso</option>
+                        <option value="Completato" <?= getFieldValue('status', $formData) === 'Completato' ? 'selected' : '' ?>>✅ Completato</option>
                     </select>
+                    <?= displayFieldError('status', $errors) ?>
                 </div>
 
                 <!-- Personal Rating -->
@@ -176,8 +186,10 @@ function displayFieldError($field, $errors) {
                     </label>
                     <input type="number" id="personal_rating" name="personal_rating"
                            min="0" max="10" step="0.1"
-                           class="w-full px-4 py-3 bg-xbox-dark border border-xbox-green/30 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-xbox-green focus:border-transparent"
+                           value="<?= htmlspecialchars(getFieldValue('personal_rating', $formData)) ?>"
+                           class="w-full px-4 py-3 bg-xbox-dark border border-xbox-green/30 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-xbox-green focus:border-transparent <?= isset($errors['personal_rating']) ? 'border-red-500' : '' ?>"
                            placeholder="es. 8.5">
+                    <?= displayFieldError('personal_rating', $errors) ?>
                 </div>
 
                 <!-- Notes -->
@@ -187,7 +199,7 @@ function displayFieldError($field, $errors) {
                     </label>
                     <textarea id="notes" name="notes" rows="4"
                               class="w-full px-4 py-3 bg-xbox-dark border border-xbox-green/30 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-xbox-green focus:border-transparent resize-none"
-                              placeholder="Le tue impressioni, commenti o note sul gioco..."></textarea>
+                              placeholder="Le tue impressioni, commenti o note sul gioco..."><?= htmlspecialchars(getFieldValue('notes', $formData)) ?></textarea>
                 </div>
             </div>
 

@@ -34,7 +34,7 @@ ob_start();
                 <div class="text-sm text-gray-400">In Corso</div>
             </div>
             <div class="xbox-card p-4 rounded-lg text-center xbox-glow">
-                <div class="text-2xl font-bold text-orange-400"><?= number_format($stats['average_rating'], 1) ?></div>
+                <div class="text-2xl font-bold text-orange-400"><?= number_format((float)($stats['average_rating'] ?? 0), 1) ?></div>
                 <div class="text-sm text-gray-400">Voto Medio</div>
             </div>
         </div>
